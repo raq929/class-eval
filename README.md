@@ -44,7 +44,8 @@ echo SECRET_KEY=$(/usr/local/opt/openssl/bin/openssl rand -base64 66 | tr -d '\n
 ```
 
 In order to make requests from your deployed client application, you will need
-to set `CLIENT_URL` in the environment.
+to set `CLIENT_ORIGIN` in the environment (e.g. `heroku config:set
+CLIENT_ORIGIN=https://<github-username>.github.io`).
 
 ## Structure
 
