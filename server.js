@@ -39,7 +39,11 @@ const normalizePort = (val) => {
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+let devPort = +('GA'.split('').reduce((p, c) =>
+ p + c.charCodeAt().toString(16), '')
+);
+
+const port = normalizePort(process.env.PORT || devPort);
 app.set('port', port);
 
 /**
