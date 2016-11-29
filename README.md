@@ -100,7 +100,7 @@ own scripts to test your custom API.
 Request:
 
 ```sh
-curl --include --request POST http://localhost:3000/sign-up \
+curl --include --request POST http://localhost:4741/sign-up \
   --header "Content-Type: application/json" \
   --data '{
     "credentials": {
@@ -134,7 +134,7 @@ Content-Type: application/json; charset=utf-8
 Request:
 
 ```sh
-curl --include --request POST http://localhost:3000/sign-in \
+curl --include --request POST http://localhost:4741/sign-in \
   --header "Content-Type: application/json" \
   --data '{
     "credentials": {
@@ -168,7 +168,7 @@ Content-Type: application/json; charset=utf-8
 Request:
 
 ```sh
-curl --include --request PATCH http://localhost:3000/change-password/$ID \
+curl --include --request PATCH http://localhost:4741/change-password/$ID \
   --header "Authorization: Token token=$TOKEN" \
   --header "Content-Type: application/json" \
   --data '{
@@ -194,7 +194,7 @@ HTTP/1.1 204 No Content
 Request:
 
 ```sh
-curl --include --request DELETE http://localhost:3000/sign-out/$ID \
+curl --include --request DELETE http://localhost:4741/sign-out/$ID \
   --header "Authorization: Token token=$TOKEN"
 ```
 
@@ -220,7 +220,7 @@ HTTP/1.1 204 No Content
 Request:
 
 ```sh
-curl --include --request GET http://localhost:3000/users \
+curl --include --request GET http://localhost:4741/users \
   --header "Authorization: Token token=$TOKEN"
 ```
 
@@ -253,7 +253,7 @@ Content-Type: application/json; charset=utf-8
 Request:
 
 ```sh
-curl --include --request GET http://localhost:3000/users/$ID \
+curl --include --request GET http://localhost:4741/users/$ID \
   --header "Authorization: Token token=$TOKEN"
 ```
 
