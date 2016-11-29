@@ -35,6 +35,7 @@ Fix any conflicts.
 1.  Run the API server with `npm start`. If you want your code to be reloaded on
     change, you should `npm install -g nodemon` and use `nodemon` instead of
     `npm start`.
+1.  Once everything is working, make an initial commit.
 
 For development and testing, set the SECRET_KEY from the root of your
  repository using
