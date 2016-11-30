@@ -95,5 +95,12 @@ const onListening = () =>  {
  */
 
 server.listen(port);
+server.on('listening', function () {
+  console.log('Server running on %s', server.address().port)
+});
 server.on('error', onError);
 server.on('listening', onListening);
+
+module.exports = {
+  server,
+}
