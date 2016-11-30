@@ -1,15 +1,31 @@
 'use strict';
 
 const request = require('supertest');
+const User = require('../app/models/user');
+
+const deleteAllUsers = (users) => {
+  return users.forEach((user) => user.remove());
+};
 
 describe('loading express', function () {
   let server;
   beforeEach(function () {
     let app = require('../server');
     server = app.server;
+    // remove any users that exist
+    User.find()
+     .then(deleteAllUsers)
+     .catch((err) => {
+       console.error(err);
+     });
   });
   afterEach(function () {
     server.close();
+    User.find()
+     .then(deleteAllUsers)
+     .catch((err) => {
+       console.error(err);
+     });
   });
   it('responds to /', function testSlash(done) {
     request(server)
@@ -35,7 +51,7 @@ describe('loading express', function () {
         'password': 'izcool',
         'password_confirmation': 'izcool'
       }
-    }
+    };
     request(server)
       .post('/sign-up')
       .set('Content-Type', 'application/json')
