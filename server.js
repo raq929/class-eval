@@ -87,20 +87,17 @@ const onError = (error) => {
 const onListening = () =>  {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Server listening on ' + bind);
 };
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('listening', function () {
-  console.log('Server running on %s', server.address().port)
-});
 server.on('error', onError);
 server.on('listening', onListening);
+server.listen(port);
 
 module.exports = {
   server,
-}
+};
