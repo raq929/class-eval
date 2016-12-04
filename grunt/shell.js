@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = {
   server: {
-    command: 'npm start'
+    command: 'npm start',
   },
 };

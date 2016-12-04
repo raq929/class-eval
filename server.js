@@ -32,6 +32,7 @@ const http = require('http');
 
 const normalizePort = (val) => {
   let port = parseInt(val, 10);
+  debug('Normalied port is', port);
   return port >= 0 ? port : isNaN(port) ? val : false;
 };
 
