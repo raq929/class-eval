@@ -25,10 +25,26 @@ const create = (req, res, next) => {
     .catch(err => next(err));
 };
 
+const update = (req, res, next) => {
+  let search = { _id: req.params.id };
+  Student.findOne(search)
+    .then(student => {
+      if (!student) {
+        return next();
+      }
+
+      delete req.body._owner;  // disallow owner reassignment.
+      return student.update(req.body.student)
+        .then(() => res.sendStatus(200));
+    })
+    .catch(err => next(err));
+};
+
 module.exports = controller({
   index,
   create,
   show,
+  update,
 }, { before: [
   { method: authenticate },
 ], });
