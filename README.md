@@ -1,18 +1,9 @@
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-# express-api-template
+# Student eval
 
-A template for starting projects with `express` as an API. Includes
-authentication and common middlewares.
-
-At the beginning of each cohort, update the versions in
-[`package.json`](package.json) by replace all versions with a glob (`*`) and
-running `npm update --save && npm update --save-dev`. You may wish to test these
-changes by deleting the `node_modules` directory and running `npm install`.
-Fix any conflicts.
-
-This template follows Rails-like conventions for organizing controller and
-model code, and has a routing layer which is similar to the Rails routing DSL.
+This is a node backend using express to create an api for a student evaluation
+app.
 
 ## Dependencies
 
@@ -21,24 +12,11 @@ Install with `npm install`.
 -   [`express`](http://expressjs.com/)
 -   [`mongoose`](http://mongoosejs.com/)
 
-At the beginning of each cohort, update the versions in
-[`package.json`](package.json) by replace all versions with a glob (`*`) and
-running `npm update --save && npm update --save-dev`. You may wish to test these
-changes by deleting the `node_modules` directory and running `npm install`.
-Fix any conflicts.
-
 ## Installation
 
-1.  [Download](../../archive/master.zip) this template.
-1.  Unzip and rename the template directory.
-1.  Empty [`README.md`](README.md) and fill with your own content.
-1.  Move into the new project and `git init`.
-1.  Replace all instances of `'express-api-template'` with your app name. This
-    includes `package.json`, various debugger configurations, and the MongoDB
-    store.
 1.  Install dependencies with `npm install`.
 1.  Set a SECRET_KEY in the environment.
-1.  Run the API server with `npm start`. If you want your code to be reloaded on
+1.  Run the API server with `grunt server`. If you want your code to be reloaded on
     change, you should `npm install -g nodemon` and use `nodemon` instead of
     `npm start`.
 1.  Once everything is working, make an initial commit.
@@ -78,13 +56,6 @@ Developers should run these often!
 -   `grunt test`: runs any automated tests
 
 ## API
-
-Use this as the basis for your own API documentation. Add a new third-level
-heading for your custom entities, and follow the pattern provided for the
-built-in user authentication documentation.
-
-Scripts are included in [`scripts`](scripts) to test built-in actions. Add your
-own scripts to test your custom API.
 
 ### Authentication
 
@@ -274,6 +245,16 @@ Content-Type: application/json; charset=utf-8
   }
 }
 ```
+
+### Students
+
+| Verb | URI Pattern | Controller#Action |
+|------|-------------|-------------------|
+| GET  | `/students`    | `students#index`     |
+| GET  | `/students/1`  | `students#show`      |
+| POST | `/students`    | `students#create`    |
+| PATCH | `/students/1`  | `students#update`   |
+| DELETE | `/students/1`  | `students#destroy` |
 
 ## [License](LICENSE)
 
