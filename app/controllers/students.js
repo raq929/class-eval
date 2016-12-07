@@ -40,11 +40,25 @@ const update = (req, res, next) => {
     .catch(err => next(err));
 };
 
+const destroy = (req, res, next) => {
+  let search = { _id: req.params.id };
+  Student.findOne(search)
+    .then(student => {
+      if (!student) {
+        return next();
+      }
+      return student.remove()
+        .then(() => res.sendStatus(200));
+    })
+    .catch(err => next(err));
+};
+
 module.exports = controller({
   index,
   create,
   show,
   update,
+  destroy,
 }, { before: [
   { method: authenticate },
 ], });
