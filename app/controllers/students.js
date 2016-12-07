@@ -8,12 +8,17 @@ const authenticate = require('./concerns/authenticate');
 
 const index = (req, res, next) => {
   Student.find()
-    .then(classes => res.json({ classes }))
+    .then(students => res.json({ students }))
+    .catch(err => next(err));
+};
+
+const show = (req, res, next) => {
+  Student.findById(req.params.id)
+    .then(student => student ? res.json({ student }) : next())
     .catch(err => next(err));
 };
 
 const create = (req, res, next) => {
-  console.log('creating')
   let student = Object.assign(req.body.student);
   Student.create(student)
     .then(newStudent => res.json({ newStudent }))
@@ -23,6 +28,7 @@ const create = (req, res, next) => {
 module.exports = controller({
   index,
   create,
+  show,
 }, { before: [
-  { method: authenticate, except: ['index', 'show'] },
+  { method: authenticate },
 ], });
