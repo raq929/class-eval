@@ -19,5 +19,6 @@ module.exports = require('lib/wiring/routes')
 
 // class routes
 .resources('students')
+.resources('rosters')
 // all routes created
 ;
