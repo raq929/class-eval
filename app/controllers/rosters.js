@@ -21,7 +21,7 @@ const show = (req, res, next) => {
       if(!roster) {
         next();
       }
-      res.json({ roster })
+      res.json({ roster });
     })
     .catch(err => next(err));
 };
@@ -69,12 +69,35 @@ const update = (req, res, next) => {
       }
       console.log(req.body.roster);
       return roster.save()
-        .then(() => res.sendStatus(200));
       })
+      .then(() => res.sendStatus(200))
       .catch(err => next(err));
 };
 
-
+const removeStudent = (req, res, next) => {
+  let search = { _id: req.params.id };
+  Roster.findOne(search)
+    .then(roster => {
+      if (!roster) {
+        return next();
+      }
+      const students = roster.students;
+      if(students.length >= 0 && req.body.roster && req.body.roster.student) {
+        return roster.update({
+          $pull: { 'students': req.body.roster.student}
+        })
+        // let index = students.indexOf(req.body.roster.student);
+        // console.log('req.body.roster ', req.body.roster)
+        // console.log('index is ', index);
+        // console.log(students);
+        // if(index !== -1) {
+        //   roster.students = students.splice(index, 1);
+        // }
+      }
+    })
+    .then(() => res.sendStatus(200))
+    .catch(err => next(err));
+};
 
 
 module.exports = controller({
@@ -83,6 +106,7 @@ module.exports = controller({
   destroy,
   show,
   update,
+  removeStudent,
 }, { before: [
   { method: authenticate, except: ['index', 'show'] },
 ], });
