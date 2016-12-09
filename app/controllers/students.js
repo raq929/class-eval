@@ -21,7 +21,7 @@ const show = (req, res, next) => {
 const create = (req, res, next) => {
   let student = Object.assign(req.body.student);
   Student.create(student)
-    .then(newStudent => res.json({ newStudent }))
+    .then(newStudent => res.json({ student: newStudent }))
     .catch(err => next(err));
 };
 
