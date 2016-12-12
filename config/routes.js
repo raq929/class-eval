@@ -21,5 +21,6 @@ module.exports = require('lib/wiring/routes')
 .resources('students')
 .resources('rosters')
 .patch('/rosters/:id/remove-student', 'rosters#removeStudent')
+.patch('/rosters/:id/remove-instructor', 'rosters#removeInstructor')
 // all routes created
 ;
