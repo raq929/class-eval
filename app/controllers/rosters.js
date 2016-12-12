@@ -60,7 +60,7 @@ const update = (req, res, next) => {
       delete req.body.id; //don't assign an id
       let newStudents = req.body.roster.students ? req.body.roster.students : null;
       if(newStudents) {
-        roster.students.addToSet(newStudents);
+        roster.students.addToSet.apply(roster.students, newStudents);
         delete req.body.students; // don't include students in the general update
       }
       if(req.body.name) {
