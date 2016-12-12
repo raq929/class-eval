@@ -67,11 +67,10 @@ const update = (req, res, next) => {
         roster.update({ name: req.body.name })
         .catch(err => next(err));
       }
-      console.log(req.body.roster);
-      return roster.save()
-      })
-      .then(() => res.sendStatus(200))
-      .catch(err => next(err));
+      return roster.save();
+    })
+    .then(() => res.sendStatus(200))
+    .catch(err => next(err));
 };
 
 const removeStudent = (req, res, next) => {
@@ -85,14 +84,7 @@ const removeStudent = (req, res, next) => {
       if(students.length >= 0 && req.body.roster && req.body.roster.student) {
         return roster.update({
           $pull: { 'students': req.body.roster.student}
-        })
-        // let index = students.indexOf(req.body.roster.student);
-        // console.log('req.body.roster ', req.body.roster)
-        // console.log('index is ', index);
-        // console.log(students);
-        // if(index !== -1) {
-        //   roster.students = students.splice(index, 1);
-        // }
+        });
       }
     })
     .then(() => res.sendStatus(200))
