@@ -63,6 +63,13 @@ const update = (req, res, next) => {
         roster.students.addToSet.apply(roster.students, newStudents);
         delete req.body.students; // don't include students in the general update
       }
+
+      let newInstructors = req.body.roster.instructors ? req.body.roster.students : null;
+      if(newInstructors) {
+        roster._instructors.addToSet.apply(roster._instructors, newInstructors);
+        delete req.body.instructors; // don't include instructors in the general update
+      }
+
       if(req.body.name) {
         roster.update({ name: req.body.name })
         .catch(err => next(err));
