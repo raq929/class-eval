@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  isAdmin: {
+    type: Boolean,
+    require: true,
+  },
   passwordDigest: String,
 }, {
   timestamps: true,
