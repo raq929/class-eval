@@ -5,6 +5,8 @@ const models = require('app/models');
 const Roster = models.roster;
 
 const authenticate = require('./concerns/authenticate');
+const checkAdminStatus = require('./concerns/admin');
+const isOwnerOrInstructor = require('./concerns/isOwnerOrInstructor');
 
 const index = (req, res, next) => {
   Roster.find()
@@ -138,4 +140,6 @@ module.exports = controller({
   removeInstructor,
 }, { before: [
   { method: authenticate },
+  { method: checkAdminStatus, only: ['create', 'destroy', 'addInstructor', 'removeInstructor']},
+  { method: isOwnerOrInstructor, only: ['show', 'update', 'removeStudent']}
 ], });

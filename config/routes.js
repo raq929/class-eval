@@ -16,10 +16,13 @@ module.exports = require('lib/wiring/routes')
 .delete('/sign-out/:id', 'users#signout')
 .patch('/change-password/:id', 'users#changepw')
 .resources('users', { only: ['index', 'show'] })
+.patch('/make-admin/:id', 'users#createAdmin')
+.patch('/disable-admin/:id', 'users#disableAdmin')
 
 // roster routes
 .resources('students')
 .resources('rosters')
+.patch('/rosters/:id/add-instructors', 'rosters#addInstructor')
 .patch('/rosters/:id/remove-student', 'rosters#removeStudent')
 .patch('/rosters/:id/remove-instructor', 'rosters#removeInstructor')
 // all routes created
