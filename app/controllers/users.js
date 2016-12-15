@@ -9,6 +9,7 @@ const User = models.user;
 const crypto = require('crypto');
 
 const authenticate = require('./concerns/authenticate');
+const isAdmin = require('./concerns/admin');
 
 const HttpError = require('lib/wiring/http-error');
 
@@ -48,7 +49,11 @@ const makeErrorHandler = (res, next) =>
 
 const signup = (req, res, next) => {
   let credentials = req.body.credentials;
-  let user = { email: credentials.email, password: credentials.password };
+  let user = {
+    email: credentials.email,
+    password: credentials.password,
+    isAdmin: false,
+  };
   getToken().then(token =>
     user.token = token
   ).then(() =>
@@ -111,6 +116,31 @@ const changepw = (req, res, next) => {
   ).catch(makeErrorHandler(res, next));
 };
 
+const setAdmin = (req, res, next, bool) => {
+  debug('creating admin');
+  User.findOne({
+    _id: req.params.id
+  })
+  .then(user => {
+    user.isAdmin = bool;
+    return user.save();
+  })
+  .then((/* user */) =>
+    res.sendStatus(200)
+  )
+  .catch(makeErrorHandler(res, next));
+};
+
+const createAdmin = (req, res, next) => {
+  debug('creating admin');
+  setAdmin(req, res, next, true);
+};
+
+const disableAdmin = (req, res, next) => {
+  debug('disabling admin');
+  setAdmin(req, res, next, false);
+};
+
 module.exports = controller({
   index,
   show,
@@ -118,6 +148,9 @@ module.exports = controller({
   signin,
   signout,
   changepw,
+  createAdmin,
+  disableAdmin
 }, { before: [
   { method: authenticate, except: ['signup', 'signin'] },
+  { method: isAdmin, only: ['createAdmin', 'disableAdmin']}
 ], });
