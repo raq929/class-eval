@@ -1,5 +1,6 @@
 'use strict';
 
+const mongoose = require('mongoose');
 const controller = require('lib/wiring/controller');
 const models = require('app/models');
 const Roster = models.roster;
@@ -8,8 +9,10 @@ const authenticate = require('./concerns/authenticate');
 const checkAdminStatus = require('./concerns/admin');
 const isInstructor = require('./concerns/isInstructor');
 
-const index = (req, res, next) => {
-  Roster.find()
+const index = function (req, res, next) {
+  const search = { _instructors:  mongoose.Types.ObjectId(req.currentUser._id) };
+  Roster.find(search)
+    .sort('name')
     .then((rosters) => {
       res.json({ rosters });
     })
