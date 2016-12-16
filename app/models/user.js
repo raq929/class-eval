@@ -12,15 +12,16 @@ const userSchema = new mongoose.Schema({
   },
   token: {
     type: String,
-    require: true,
+    required: true,
   },
   isAdmin: {
     type: Boolean,
-    require: true,
+    required: true,
   },
   passwordDigest: String,
 }, {
   timestamps: true,
+  toJSON: { virtuals: true },
 });
 
 userSchema.plugin(uniqueValidator);
