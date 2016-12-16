@@ -6,7 +6,7 @@ const notFound = require('app/middleware/404');
 const Roster = models.roster;
 
 // This method should only be used *after* authenticate
-const isOwnerOrInstructor = (req, res, next) => {
+const isInstructor = (req, res, next) => {
   if (req.currentUser.isAdmin) {
     return next();
   } else if (req.currentUser && req.params.id) {
@@ -14,7 +14,7 @@ const isOwnerOrInstructor = (req, res, next) => {
     const id = req.currentUser._id;
     Roster.findById(req.params.id)
     .then((roster) => {
-      if (roster._owner === id || roster._instructors.indexOf(id) !== -1) {
+      if (roster._instructors.indexOf(id) !== -1) {
         debug('user is an owner or instructor');
         return next();
       } else {
@@ -30,4 +30,4 @@ const isOwnerOrInstructor = (req, res, next) => {
 
 };
 
-module.exports = isOwnerOrInstructor;
+module.exports = isInstructor;

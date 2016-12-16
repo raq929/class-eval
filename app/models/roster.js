@@ -8,11 +8,6 @@ const rosterSchema = new mongoose.Schema({
     required: true,
   },
   students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
-  _owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
   _instructors: {
     type:[{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   },

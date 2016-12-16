@@ -6,7 +6,7 @@ const Roster = models.roster;
 
 const authenticate = require('./concerns/authenticate');
 const checkAdminStatus = require('./concerns/admin');
-const isOwnerOrInstructor = require('./concerns/isOwnerOrInstructor');
+const isInstructor = require('./concerns/isInstructor');
 
 const index = (req, res, next) => {
   Roster.find()
@@ -19,7 +19,7 @@ const index = (req, res, next) => {
 const show = (req, res, next) => {
   Roster.findById(req.params.id)
     .populate('students', '-updatedAt -createdAt')
-    .populate('_instructors', '_id email')
+    .populate('_instructors', '_id email id')
     .then((roster) => {
       if(!roster) {
         next();
@@ -30,7 +30,7 @@ const show = (req, res, next) => {
 };
 
 const destroy = (req, res, next) => {
-  let search = { _id: req.params.id, _owner: req.currentUser._id };
+  let search = { _id: req.params.id };
   Roster.findOne(search)
     .then(roster => {
       if (!roster) {
@@ -43,9 +43,7 @@ const destroy = (req, res, next) => {
 };
 
 const create = (req, res, next) => {
-  let roster = Object.assign(req.body.roster, {
-    _owner: req.currentUser._id,
-  });
+  let roster = req.body.roster;
   Roster.create(roster)
     .then(newRoster => res.json({ roster: newRoster }))
     .catch(err => next(err));
@@ -58,7 +56,6 @@ const update = (req, res, next) => {
       if (!roster) {
         return next();
       }
-
       delete req.body._owner;  // disallow owner reassignment.
       delete req.body.id; //don't assign an id
       let newStudents = req.body.roster.students ? req.body.roster.students : null;
@@ -141,5 +138,5 @@ module.exports = controller({
 }, { before: [
   { method: authenticate },
   { method: checkAdminStatus, only: ['create', 'destroy', 'addInstructor', 'removeInstructor']},
-  { method: isOwnerOrInstructor, only: ['show', 'update', 'removeStudent']}
+  { method: isInstructor, only: ['show', 'update', 'removeStudent']}
 ], });
