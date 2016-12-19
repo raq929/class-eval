@@ -14,20 +14,33 @@ const index = function (req, res, next) {
   Roster.find(search)
     .sort('name')
     .then((rosters) => {
-      res.json({ rosters });
+      res.json({
+        rosters
+       });
     })
     .catch(err => next(err));
 };
 
 const show = (req, res, next) => {
+  let emberRoster = {};
   Roster.findById(req.params.id)
-    .populate('students', '-updatedAt -createdAt')
-    .populate('_instructors', '_id email id')
     .then((roster) => {
       if(!roster) {
         next();
       }
-      res.json({ roster });
+      emberRoster.roster = roster;
+      return roster;
+    })
+    .catch(err => next(err));
+
+    Roster.findById(req.params.id)
+    .populate('students', '-updatedAt -createdAt')
+    .populate('_instructors', '_id email id')
+    .then((roster) => {
+      res.json(Object.assign(emberRoster, {
+                                            students: roster.students,
+                                            _instructors: roster._instructors
+                                          }));
     })
     .catch(err => next(err));
 };
