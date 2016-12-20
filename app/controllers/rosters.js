@@ -25,25 +25,27 @@ const index = function (req, res, next) {
 };
 
 const show = (req, res, next) => {
-  let emberRoster = {};
+  let emberRoster = { roster: {}};
   Roster.findById(req.params.id)
     .then((roster) => {
       if(!roster) {
         next();
       }
-      emberRoster.roster = roster;
-      return roster;
-    })
-    .catch(err => next(err));
-
-    Roster.findById(req.params.id)
-    .populate('students', '-updatedAt -createdAt')
-    .populate('_instructors', '_id email id')
-    .then((roster) => {
-      res.json(Object.assign(emberRoster, {
-                                            students: roster.students,
-                                            _instructors: roster._instructors
-                                          }));
+      let students = roster.students;
+      emberRoster.roster = roster._doc;
+      emberRoster.roster = Object.assign(emberRoster.roster, { student_ids: students });
+      return emberRoster;
+    }).then(() => {
+        Roster.findById(req.params.id)
+        .populate('students', '-updatedAt -createdAt')
+        .populate('_instructors', '_id email id')
+        .then((newRoster) => {
+          emberRoster.roster.id = newRoster.id;
+          res.json(Object.assign(emberRoster, {
+                                                students: newRoster.students,
+                                                _instructors: newRoster._instructors,
+                                              }));
+        });
     })
     .catch(err => next(err));
 };
