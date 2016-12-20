@@ -77,20 +77,19 @@ const update = (req, res, next) => {
       if (!roster) {
         return next();
       }
-      delete req.body._owner;  // disallow owner reassignment.
-      delete req.body.id; //don't assign an id
+      delete req.body.roster._owner;  // disallow owner reassignment.
+      delete req.body.roster._id; //don't assign an id
       let newStudents = req.body.roster.students ? req.body.roster.students : null;
       if(newStudents) {
         roster.students.addToSet.apply(roster.students, newStudents);
-        delete req.body.students; // don't include students in the general update
+        delete req.body.roster.students; // don't include students in the general update
       }
-      if(req.body.name) {
-        roster.update({ name: req.body.name })
-        .catch(err => next(err));
+      if(req.body.roster.name) {
+        roster.name = req.body.roster.name;
       }
       return roster.save();
     })
-    .then(() => res.sendStatus(200))
+    .then(() => res.sendStatus(204))
     .catch(err => next(err));
 };
 
