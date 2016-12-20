@@ -10,7 +10,10 @@ const checkAdminStatus = require('./concerns/admin');
 const isInstructor = require('./concerns/isInstructor');
 
 const index = function (req, res, next) {
-  const search = { _instructors:  mongoose.Types.ObjectId(req.currentUser._id) };
+  let search = {};
+  if(!req.currentUser.isAdmin){
+    search = { _instructors:  mongoose.Types.ObjectId(req.currentUser._id) };
+  }
   Roster.find(search)
     .sort('name')
     .then((rosters) => {
